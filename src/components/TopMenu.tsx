@@ -1,6 +1,4 @@
-"use client";
 
-import { cookies } from "next/headers";
 import Link from "next/link";
 import {
   CiSearch,
@@ -9,34 +7,9 @@ import {
   CiBellOn,
   CiShoppingBasket,
 } from "react-icons/ci";
-import {
-  listarCarrito
-} from "@/shopping-cart/actions/actions";
-import { useCallback, useEffect, useState } from "react";
-import { Cart } from "@/interfaces/cart";
-import { useCartStore } from "@/store/cart/cart-store";
+import { CountItems } from "./CountItems";
 
 export const TopMenu = () => {
-  const [loaded, setLoaded] = useState(false);
-  const totalItemsInCart = useCartStore((state) => state.getTotalItems());
-  const listCartFromDB = useCartStore( state => state.listCartFromDB );
-
-  const fetchProductsInCart = useCallback(async () => {
-    try {
-      await listCartFromDB();
-    } catch (error) {
-      console.error('Error fetching products in cart:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchProductsInCart();
-  }, []);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
   return (
     <div className="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
       <div className="px-6 flex items-center justify-between space-x-4">
@@ -69,22 +42,7 @@ export const TopMenu = () => {
             <CiChat1 size={25} />
           </button>
 
-          <Link
-            href={
-              ( (totalItemsInCart === 0 ) && loaded )
-                ? '/empty'
-                : "/cart"
-            }
-            className="p-2 flex items-center justify-center h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200"
-          >
-            {totalItemsInCart > 0 && (
-              <span className="text-sm mr-2 text-blue-800 font-bold">
-                {totalItemsInCart}
-              </span>
-            )}
-
-            <CiShoppingBasket size={25} />
-          </Link>
+          <CountItems />
         </div>
       </div>
     </div>

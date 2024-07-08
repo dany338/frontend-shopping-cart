@@ -19,7 +19,7 @@ export const ProductCard = ({ id, name, price, rating, image }: Product) => {
   const addProductToCart = useCartStore( state => state.addProductTocart );
   const removeProduct = useCartStore( state => state.removeProduct );
   const isProductInCart = useCartStore( state => state.isProductInCart );
-  const totalItemsInCart = useCartStore((state) => state.getTotalItems());
+  const getTotalItemsByProduct = useCartStore((state) => state.getTotalItemsByProduct);
 
   const onAddToCart = () => {
     const cartProduct = {
@@ -89,7 +89,7 @@ export const ProductCard = ({ id, name, price, rating, image }: Product) => {
                 onClick={onRemoveFromCart}
                 className="flex justify-center items-center gap-2 text-white focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800"
               >
-                Borrar del carrito {`(${totalItemsInCart})`} <IoTrashOutline size={20} />
+                Borrar del carrito {`(${getTotalItemsByProduct(id)})`} <IoTrashOutline size={20} />
               </button>
             ) : (
             <button

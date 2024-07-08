@@ -29,6 +29,7 @@ interface State {
   removeProduct: (productId: number) => void;
   listCartFromDB: () => void;
   isProductInCart: (productId: number) => boolean;
+  getTotalItemsByProduct: (productId: number) => number;
 
   clearCart: () => void;
 }
@@ -127,6 +128,12 @@ export const useCartStore = create<State>()(
       isProductInCart: (productId: number) => {
         const { cart } = get();
         return cart.some((item) => item.product.id === productId);
+      },
+
+      getTotalItemsByProduct: (productId: number) => {
+        const { cart } = get();
+        const product = cart.find((item) => item.product.id === productId);
+        return product ? product.quantity : 0;
       },
 
       clearCart: () => {
